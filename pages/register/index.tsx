@@ -1,18 +1,25 @@
-import { Form, Input, Button } from "antd";
-import Checkbox from "antd/lib/checkbox/Checkbox";
+import { Form, Input } from "antd";
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "../login/Login.module.scss";
+import { motion } from "framer-motion";
 
 const cx = classNames.bind(styles)
 
 function Login() {
-    const onFinish = () => {
+
+    const onFinish = (values: any) => {
 
     }
 
     return (
-        <div style={{ backgroundImage: `url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg)` }} className={styles.login}>
+        <motion.div
+            initial={{ width: 0, y: 0 }}
+            animate={{ width: '100%' }}
+            exit={{ x: typeof window !== 'undefined' ? window.innerWidth : 0, y: typeof window !== 'undefined' ? window.innerHeight : 0, transition: { duration: 3000 } }}
+            style={{ backgroundImage: `url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg)` }}
+            className={styles.login}
+        >
             <Form
                 name="basic"
                 className={styles['login__form']}
@@ -63,7 +70,7 @@ function Login() {
                 </span>
             </Form>
 
-        </div>
+        </motion.div>
     );
 }
 

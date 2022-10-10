@@ -27,3 +27,26 @@ a {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.ant-modal-mask {
+  z-index: 999;
+}
+
+.ant-modal-header {
+  background-color: rgb(163, 78, 244);
+}
+.ant-drawer-header {
+  background-color: rgb(163, 78, 244);
+}
+
+.ant-modal-title {
+  font-size: 1.05rem;
+}
+#__next {
+  overflow: hidden;
+}
+#wheel {
+  color: red;
+  canvas {
+  }
+}

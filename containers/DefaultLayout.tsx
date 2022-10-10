@@ -13,7 +13,7 @@ function DefaultLayout(props: DefaultLayoutProps) {
             <section className="main">
                 {children}
             </section>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }
