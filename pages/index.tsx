@@ -31,21 +31,24 @@ const Home: NextPage = () => {
   }
   return (
     <div className={styles.home}>
-      {/* <WheelComponent
-        segments={segments}
-        segColors={segColors}
-        winningSegment={winner}
-        onFinished={(winner: any) => onFinished(winner)}
-        primaryColor='white'
-        contrastColor='black'
-        buttonText='Spin'
-        isOnlyOnce={false}
-        size={290}
-        upDuration={700}
-        downDuration={1000}
-        fontFamily='Arial'
-      /> */}
+
       <div className={`${styles['home__background']}`}>
+        <div className={`${styles['home__background-spin']}`}>
+          <WheelComponent
+            segments={segments}
+            segColors={segColors}
+            winningSegment={winner}
+            onFinished={(winner: any) => onFinished(winner)}
+            primaryColor='white'
+            contrastColor='black'
+            buttonText='Spin'
+            isOnlyOnce={false}
+            size={290}
+            upDuration={700}
+            downDuration={1000}
+            fontFamily='Arial'
+          />
+        </div>
         <div className={`${styles['area']}`} >
           <ul className={`${styles['circles']}`}>
             <li></li>

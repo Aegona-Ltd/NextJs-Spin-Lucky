@@ -13,7 +13,6 @@ function Login() {
 
     return (
         <div style={{ backgroundImage: `url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg)` }} className={styles.login}>
-
             <Form
                 name="basic"
                 className={styles['login__form']}
