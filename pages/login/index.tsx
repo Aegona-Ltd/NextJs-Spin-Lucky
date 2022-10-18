@@ -1,18 +1,33 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import classNames from "classnames";
 import styles from "./Login.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion"
+import useAuth from "../../hooks/useAuth";
+import authServices from "../../services/authServices";
+import { useDispatch } from "react-redux"
+import { updateUser } from "../../modules/authSlice";
 
 const cx = classNames.bind(styles)
 
 function Login() {
   const router = useRouter()
+  const dispatch = useDispatch()
+  const auth = useAuth()
 
-  const onFinish = () => {
-    router.push('/')
+  const onFinish = (values: any) => {
+    // router.push('/')
+    authServices.loginUser({ userName: values.userName, password: values.password }).then((res: any) => {
+      dispatch(
+        updateUser({ userName: res.data.userName, role: res.data.role, token: res.data.accessToken })
+      )
+    }).then(res => {
+      message.success('Login success!')
+      router.push('/')
+    })
+
   }
 
 
@@ -35,7 +50,7 @@ function Login() {
           <h2 className={`${styles['login__title']} mb-3`}>Login</h2>
           <label className={`${styles['login__label']} ${styles['required']}`}>Username</label>
           <Form.Item
-            name="username"
+            name="userName"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input className={styles['login__input']} placeholder="Enter your username" />

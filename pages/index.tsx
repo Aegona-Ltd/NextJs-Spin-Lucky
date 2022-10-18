@@ -1,101 +1,66 @@
-import styles from '../styles/Home.module.scss'
-import WheelComponent from 'react-wheel-of-prizes'
-import { ReactElement, useState } from 'react'
-import "react-turntable/assets/index.css"
-import ConfettiComp from '../components/ConfettiComp'
-import WinnerModal from '../components/WinnerModal'
-import DefaultLayout from '../containers/DefaultLayout'
-// import 'react-wheel-of-prizes/dist/index.css
+import styles from '../styles/Home.module.scss';
+import DefaultLayout from '../containers/DefaultLayout';
+import { ReactElement, useEffect, useState } from 'react';
+import Image from 'next/image';
+import treeImage from "../assets/images/tree.png";
+import luckyEnvelop from "../assets/images/lucky-envelop.png";
+import mai from "../assets/images/mai.png";
+import dao from "../assets/images/dao.png";
+import Popup from '../components/Popup';
 
 const Home = () => {
-  const [options, setOptions] = useState({})
-  const [winner, setWinner] = useState("");
-  const [show, setShow] = useState(false);
-  const [confettiState, setConfettiState] = useState(false);
-  // const { width, height } = useWindowSize();
+  const [active, setActive] = useState(false)
+  const [showPopup, setShowPopup] = useState(false)
+  const [numberEnvelop, setNumberEnvelop] = useState(0)
 
-  const segments = [
-    'won 20',
-    'won 70',
-    'won 10',
-    'won 20',
-    'won 2',
-    'won uber pass',
-    'won 20',
-    'won a voucher'
-  ]
+  useEffect(() => {
+    if (active) {
+      setTimeout(() => {
+        setActive(!active)
+        setShowPopup(!showPopup)
+      }, 1700)
+    }
+  }, [active])
 
-  const segColors = [
-    '#EE4040',
-    '#F0CF50',
-    '#815CD1',
-    '#3DA5E0',
-    '#34A24F',
-    '#F9AA1F',
-    '#EC3F3F',
-    '#FF9000'
-  ]
-
-  const onFinished = (winner: any) => {
-    setWinner(winner)
-    setShow(!show)
-    setConfettiState(!confettiState)
+  const handleActive = () => {
+    const numberEnvelop = Math.floor(Math.random() * 14) + 1;
+    setNumberEnvelop(numberEnvelop)
+    setActive(!active)
   }
 
   return (
-    <div className={styles.home}>
-      <div className={`${styles['home__background']}`}>
-        <div className={`${styles['home__background-spin']}`}>
-          <div className={`${styles['home__background-spin-first']}`}></div>
-          <div className={`${styles['home__background-spin-second']}`} style={{ width: '50%' }}>
-            <WheelComponent
-              segments={segments}
-              segColors={segColors}
-              winningSegment={''}
-              onFinished={(winner: any) => onFinished(winner)}
-              primaryColor='white'
-              contrastColor='black'
-              buttonText='Spin'
-              isOnlyOnce={false}
-              size={250}
-              upDuration={700}
-              downDuration={1000}
-              fontFamily='Arial'
-            />
+    <div className={`${styles['home']}`}>
+      <div className='container'>
 
-            <ConfettiComp height={1000} width={confettiState ? window.innerWidth : 0} />
-            {/* <TurnTable
-              setWinner={setWinner}
-              setShow={setShow}
-              setConfettiState={setConfettiState}
-            /> */}
-            <WinnerModal
-              show={show}
-              winner={winner}
-              onClose={() => {
-                setConfettiState(false)
-                setShow(false)
-              }}
-            />
+        <div className={`${styles['home__image']} ${active ? `${styles['active']}` : ''}`}>
+          <Image
+            src={treeImage}
+            alt=''
+            layout='fixed'
+            onClick={handleActive}
+          />
 
-          </div>
+          {
+            Array.from({ length: 13 }).map((item, index) => {
+              return (
+                <div key={index} className={`${styles['home__image-envelop']} ${styles[`home__image-envelop-${index + 1}`]} ${index + 1 === numberEnvelop ? styles['active'] : ''}`}>
+                  <Image
+                    src={luckyEnvelop}
+                    alt=''
+                    width={25}
+                    height={40}
+                    layout='fixed'
+                  />
+                </div>
+              )
+            })
+          }
         </div>
-        <div className={`${styles['area']}`} >
-          <ul className={`${styles['circles']}`}>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div >
-      </div >
-    </div >
+      </div>
+      <div style={{ backgroundImage: `url(${mai.src})` }} className={`${styles['home__image-mai']}`}></div>
+      <div style={{ backgroundImage: `url(${dao.src})` }} className={`${styles['home__image-dao']}`}></div>
+      <Popup show={showPopup} onClose={() => setShowPopup(!showPopup)} />
+    </div>
   )
 }
 
